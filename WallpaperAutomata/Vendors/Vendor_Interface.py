@@ -5,17 +5,13 @@
 class VendorInterface:
 
     @staticmethod
-    def create(token, queryUrl):
+    def create(token, query):
         """Create new instance of VendorInterface class.
 
         Args:
             token (string): Token from vendor.
-            queryUrl ([type]): Url for query.
+            query (string): Query.
         """
-        pass
-
-    def _request(self) -> None:
-        """ Get data from vendor. """
         pass
 
     def data(self) -> dict:
