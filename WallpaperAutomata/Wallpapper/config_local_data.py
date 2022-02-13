@@ -7,16 +7,16 @@ from pathlib import Path
 from yaml import load, Loader
 
 
-class Config:
+class ConfigLocalData:
 
     _data = {}
 
-    def __init__(self, filePath) -> None:
+    def __init__(self, filePath: str) -> None:
         self.filePath = Path(filePath)
         self._extractData()
 
     @staticmethod
-    def create(filePath):
+    def create(filePath: str) -> object:
         """Create a instance of Config.
 
         Args:
@@ -26,7 +26,7 @@ class Config:
             Object: instance of Config
         """
 
-        return Config(filePath)
+        return ConfigLocalData(filePath)
 
     def _extractData(self) -> None:
         """
@@ -36,5 +36,5 @@ class Config:
         self._data = load(self.filePath.read_text(), Loader=Loader)
 
     @property
-    def data(self):
+    def data(self) -> dict:
         return self._data

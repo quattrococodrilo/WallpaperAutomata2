@@ -1,10 +1,8 @@
 from pathlib import Path
 from random import choice
 
-from WallpaperAutomata.Vendors.Pexels import Pexels
-from WallpaperAutomata.Wallpapper.Config import Config
-from WallpaperAutomata.Wallpapper.Paper import Paper
-from WallpaperAutomata.Wallpapper.SaveImage import SaveImage
+from WallpaperAutomata.Vendors import Pexels
+from WallpaperAutomata.Wallpapper import ConfigLocalData, Paper, SaveImage
 
 
 class Command:
@@ -28,7 +26,7 @@ class Command:
                                 .parent
                                 .joinpath('data/config.yml'))
 
-        config = Config.create(file_config_path).data
+        config = ConfigLocalData.create(file_config_path).data
 
         pexelsData = config['vendors']['Pexels']
 

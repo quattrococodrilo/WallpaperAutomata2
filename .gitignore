@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # Custom
+venv2/
 data/

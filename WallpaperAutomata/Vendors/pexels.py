@@ -1,26 +1,29 @@
 """
     Get images from Pexels.
 """
+from typing import Dict, List
+
 import requests
 
+from .vendor_interface import VendorInterface
 
-class Pexels:
 
-    _base_url = 'https://api.pexels.com/'
+class Pexels(VendorInterface):
 
-    _end_point = 'v1/search'
+    _base_url: str = 'https://api.pexels.com/'
 
-    _params = {
+    _end_point: str = 'v1/search'
+
+    _params: Dict = {
         'query': '',
         'orientation': 'landscape',
         'size': 'original',
         'per_page': 50,
-
     }
 
-    _response = ''
+    _response: Dict = {}
 
-    def __init__(self, token, query) -> None:
+    def __init__(self, token: str, query: str) -> None:
         """Constructor
 
         Args:
@@ -31,13 +34,13 @@ class Pexels:
         self._token = token
         self._params['query'] = query
 
-    @staticmethod
-    def create(token, query):
+    @classmethod
+    def create(cls, token: str, query: str):
         return Pexels(token, query)
 
-    def _request(self):
+    def _request(self) -> None:
         """
-        It do request to Pexels.
+        Make a request to Pexels.
         """
 
         url = f'{self._base_url}{self._end_point}'
@@ -52,12 +55,21 @@ class Pexels:
 
         self._response = request.json()
 
-    def photos(self) -> list:
-        """Get photos.
+    def photos(self) -> List[Dict[str, str]]:
+        """Get photos
 
         Returns:
-            list: [{author: string, url: string}, ...]
+            list[dict[str, str]]: [
+                {
+                    'author': str,
+                    'id': str,
+                    'title': str,
+                    'url': str,
+                }
+                ...
+            ]
         """
+
         self._request()
 
         photosRaw = self._response['photos']

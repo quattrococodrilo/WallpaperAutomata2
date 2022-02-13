@@ -4,7 +4,7 @@
 
 from pathlib import Path
 import unittest
-from WallpaperAutomata.Wallpapper.Config import Config
+from WallpaperAutomata.Wallpapper import ConfigLocalData
 
 
 class TestConfig(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestConfig(unittest.TestCase):
                     .parent
                     .joinpath('data/config.yml'))
 
-        config = Config.create(filePath)
+        config = ConfigLocalData.create(filePath)
 
         self.assertTrue('vendors' in config.data)
         self.assertTrue('config' in config.data)

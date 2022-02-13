@@ -1,11 +1,15 @@
 import unittest
 from pathlib import Path
 
-from WallpaperAutomata.Vendors.Pexels import Pexels
-from WallpaperAutomata.Wallpapper.Config import Config
+from WallpaperAutomata.Vendors import Pexels
+from WallpaperAutomata.Vendors.vendor_interface import VendorInterface
+from WallpaperAutomata.Wallpapper import ConfigLocalData
 
 
 class TestPexels(unittest.TestCase):
+
+    def test_correct_implementation_of_vendor_interface(self):
+        self.assertTrue(issubclass(Pexels, VendorInterface))
 
     def test_pexel_api(self):
         filePath = (Path(__file__)
@@ -14,7 +18,7 @@ class TestPexels(unittest.TestCase):
                     .parent
                     .joinpath('data/config.yml'))
 
-        config = Config.create(filePath)
+        config = ConfigLocalData.create(filePath)
 
         dataPexels = config.data['vendors']['Pexels']
 

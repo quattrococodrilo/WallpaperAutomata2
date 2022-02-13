@@ -1,1 +1,5 @@
-from .command import Command
+from sys import argv
+
+
+def exec() -> None:
+    pass

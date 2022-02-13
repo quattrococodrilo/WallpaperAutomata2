@@ -2,10 +2,8 @@ import unittest
 from pathlib import Path
 from random import choice
 
-from WallpaperAutomata.Vendors.Pexels import Pexels
-from WallpaperAutomata.Wallpapper.Config import Config
-from WallpaperAutomata.Wallpapper.Paper import Paper
-from WallpaperAutomata.Wallpapper.SaveImage import SaveImage
+from WallpaperAutomata.Vendors import Pexels
+from WallpaperAutomata.Wallpapper import ConfigLocalData, Paper, SaveImage
 
 
 class SaveImageTest(unittest.TestCase):
@@ -18,7 +16,7 @@ class SaveImageTest(unittest.TestCase):
                     .parent
                     .joinpath('data/config.yml'))
 
-        config = Config.create(filePath).data
+        config = ConfigLocalData.create(filePath).data
 
         pexelsData = config['vendors']['Pexels']
 
