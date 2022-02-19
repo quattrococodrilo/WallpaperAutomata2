@@ -40,6 +40,7 @@ class VendorInterface(metaclass=abc.ABCMeta):
                     'url': str,
                     'title': str,
                     'id': str,
+                    'ext': str,
                 }
                 ...
             ]

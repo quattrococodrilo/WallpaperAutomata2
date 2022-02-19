@@ -1,12 +1,12 @@
 import unittest
 from pathlib import Path
 
-from WallpaperAutomata.Vendors import Pexels
+from WallpaperAutomata.Vendors import PexelsVendor
 from WallpaperAutomata.Vendors.vendor_interface import VendorInterface
 from WallpaperAutomata.Wallpapper import ConfigLocalData
 
 
-class TestPexels(unittest.TestCase):
+class PexelsVendorTest(unittest.TestCase):
 
     def test_correct_implementation_of_vendor_interface(self):
         self.assertTrue(issubclass(Pexels, VendorInterface))

@@ -1,1 +1,1 @@
-from .pexels import Pexels
+from .pexels_vendor import PexelsVendor

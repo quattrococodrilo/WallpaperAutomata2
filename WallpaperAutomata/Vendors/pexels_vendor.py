@@ -8,7 +8,7 @@ import requests
 from .vendor_interface import VendorInterface
 
 
-class Pexels(VendorInterface):
+class PexelsVendor(VendorInterface):
 
     _base_url: str = 'https://api.pexels.com/'
 
@@ -80,8 +80,9 @@ class Pexels(VendorInterface):
             photos.append({
                 'author': photo['photographer'],
                 'url': photo['src'][self._params['size']],
-                'id': photo['id'],
+                'id': f"pexels-{photo['id']}",
                 'title': photo['alt'] if photo['alt'] else photo['id'],
+                'ext': photo['src'][self._params['size']].split('.')[-1]
             })
 
         return photos
