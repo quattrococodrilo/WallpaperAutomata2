@@ -36,7 +36,7 @@ class PexelsVendor(VendorInterface):
 
     @classmethod
     def create(cls, token: str, query: str):
-        return Pexels(token, query)
+        return PexelsVendor(token, query)
 
     def _request(self) -> None:
         """

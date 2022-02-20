@@ -3,6 +3,8 @@ Command
 """
 
 import argparse
+from email.mime import image
+from pathlib import Path
 from sys import argv
 from typing import Dict
 from WallpaperAutomata.Wallpapper.config_local_data import ConfigLocalData
@@ -16,12 +18,18 @@ class CommandBootstrap:
 
     def __init__(self) -> None:
         config = ConfigLocalData.create()
-        self._configDir = config.dir
-        self._configFile = config.configFile
+        self._config_dir = config.dir
+        self._config_file = config.config_file
         self._data = config.data
         self._commands: Dict = COMMANDS
         self._args: Dict = {}
-        self._entry_point = argv[1]
+
+        try:
+            self._entry_point = argv[1]
+        except IndexError:
+            self._show_help()
+            exit()
+
         self._boot()
 
     @staticmethod
@@ -29,7 +37,10 @@ class CommandBootstrap:
         return CommandBootstrap()
 
     def _boot(self):
-        self._parser: object = argparse.ArgumentParser(
+        """
+            Execute all process
+        """
+        self._parser: argparse.ArgumentParser = argparse.ArgumentParser(
             description=COMMAND_DESCRIPTION
         )
 
@@ -42,22 +53,37 @@ class CommandBootstrap:
 
             if len(command.arguments()) > 0:
                 for argument in command.arguments():
-                    self._parser.add_argument(**argument)
+                    self._parser.add_argument(
+                        *argument['args'], **argument['kwargs']
+                    )
+
+            args = self._parser.parse_args()
+
+            args.query = (args.query
+                          if args.query
+                          else self._data['vendors'][self._entry_point]['query'])
+
+            args = vars(args)
 
             photo = command.exec(
                 self._data['vendors'][self._entry_point]['token'],
-                self._parser.parse_args()
+                args
             )
 
-            image_path = (
-                SaveImage
-                .create(self._data['config']['store'])
-                .save(photo['url'])
-            )
+            image_path = (Path(self._data['config']['store'])
+                          / f'{photo["id"]}.{photo["ext"]}')
+
+            image_path = SaveImage.save(image_path, photo['url'])
 
             Paper.create(image_path)
 
         else:
             print(f'Argument {self._entry_point} doesn\'t exist in commands.')
-            for name, command in self._commands:
-                print(f'{name}: {command.description()}')
+            self._show_help()
+
+    def _show_help(self):
+        """
+         Print help
+        """
+        for name, command in self._commands.items():
+            print(f'{name}: {command.description()}')

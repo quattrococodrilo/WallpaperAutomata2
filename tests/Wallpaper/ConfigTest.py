@@ -12,4 +12,7 @@ class TestConfig(unittest.TestCase):
     def test_data(self):
         """ Test that extracts data from configuration file. """
 
-        ConfigLocalData.create()
+        config = ConfigLocalData.create()
+
+        self.assertTrue(config.dir.exists())
+        self.assertTrue(config.config_file.exists())

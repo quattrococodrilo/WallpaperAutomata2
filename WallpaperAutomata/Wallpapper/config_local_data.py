@@ -20,10 +20,10 @@ class ConfigLocalData:
 
         if system() == 'Linux':
             self._dir: Path = Path.home() / CONFIG_PATH['Linux']
-            self._configFile = Path(self._dir) / CONFIG_FILE_NAME
+            self._config_file = Path(self._dir) / CONFIG_FILE_NAME
 
         self._mkdir()
-        self._setConfigFile()
+        self._set_config_file()
         self._extractData()
 
     @staticmethod
@@ -39,38 +39,25 @@ class ConfigLocalData:
         return self._dir
 
     @property
-    def configFile(self) -> Path:
-        return self._configFile
-
-    @staticmethod
-    def create() -> object:
-        """Create a instance of Config.
-
-        Args:
-            filePath (string): Path to file in yml.
-
-        Returns:
-            Object: instance of Config
-        """
-
-        return ConfigLocalData()
+    def config_file(self) -> Path:
+        return self._config_file
 
     def _extractData(self) -> None:
         """
             Get data from config file yml.
         """
 
-        self._data = load(self._configFile.read_text(), Loader=Loader)
+        self._data = load(self._config_file.read_text(), Loader=Loader)
 
     def _mkdir(self):
         if not self._dir.exists():
             self._dir.mkdir(parents=True)
 
-    def _setConfigFile(self):
-        if not self._configFile.exists():
+    def _set_config_file(self):
+        if not self._config_file.exists():
             self._data['config']['store'] = input('Set store directory: ')
             self._data['vendors']['pexels']['token'] = input(
                 'Set Pexels token: '
             )
-            dump(self._data, self._configFile.open(
+            dump(self._data, self._config_file.open(
                 'w'), Dumper=Dumper, allow_unicode=True)

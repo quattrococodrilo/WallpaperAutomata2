@@ -2,6 +2,8 @@
     Pexels command
 """
 
+import argparse
+from ast import arg
 from random import choice
 from typing import Dict, List
 
@@ -16,12 +18,10 @@ class PexelsCommand(CommandInterface):
 
     _arguments = [
         {
-            'args': ['-s', '--search'],
+            'args': ['-q', '--query'],
             'kwargs': {
-                'name': '--search',
-                'short_name': '-s',
-                'default': '',
                 'action': 'store',
+                'help': 'Query search.'
             }
         }
     ]
@@ -37,7 +37,7 @@ class PexelsCommand(CommandInterface):
     @classmethod
     def exec(cls, token: str, args: Dict) -> Dict[str, str]:
 
-        pexels = PexelsVendor.create(token, args['search'])
+        pexels = PexelsVendor.create(token, args['query'])
 
         photos = pexels.photos()
 
