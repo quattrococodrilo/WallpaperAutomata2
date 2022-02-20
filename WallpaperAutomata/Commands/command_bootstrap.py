@@ -8,8 +8,6 @@ from pathlib import Path
 from sys import argv
 from typing import Dict
 from WallpaperAutomata.Wallpapper.config_local_data import ConfigLocalData
-from WallpaperAutomata.Wallpapper.paper import Paper
-from WallpaperAutomata.Wallpapper.save_image import SaveImage
 
 from WallpaperAutomata.settings import COMMAND_DESCRIPTION, COMMANDS
 
@@ -26,6 +24,11 @@ class CommandBootstrap:
 
         try:
             self._entry_point = argv[1]
+
+            if self._entry_point == '--help' or self._entry_point == '-h':
+                self._show_help()
+                exit(0)
+
         except IndexError:
             self._show_help()
             exit()
@@ -65,20 +68,16 @@ class CommandBootstrap:
 
             args = vars(args)
 
-            photo = command.exec(
+            command.exec(
                 self._data['vendors'][self._entry_point]['token'],
-                args
+                args,
+                self._data
             )
 
-            image_path = (Path(self._data['config']['store'])
-                          / f'{photo["id"]}.{photo["ext"]}')
-
-            image_path = SaveImage.save(image_path, photo['url'])
-
-            Paper.create(image_path)
-
         else:
-            print(f'Argument {self._entry_point} doesn\'t exist in commands.')
+            print(
+                f'Argument {self._entry_point} doesn\'t exist in commands.\n'
+            )
             self._show_help()
 
     def _show_help(self):

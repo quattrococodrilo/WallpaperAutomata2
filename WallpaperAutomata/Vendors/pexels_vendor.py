@@ -18,7 +18,7 @@ class PexelsVendor(VendorInterface):
         'query': '',
         'orientation': 'landscape',
         'size': 'original',
-        'per_page': 50,
+        'per_page': 100,
     }
 
     _response: Dict = {}

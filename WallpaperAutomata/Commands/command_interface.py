@@ -3,7 +3,7 @@ Command Interface
 """
 
 import abc
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 class CommandInterface(metaclass=abc.ABCMeta):
@@ -27,7 +27,7 @@ class CommandInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractclassmethod
-    def exec(cls, token: str, args_parsed: Dict) -> Dict[str, str]:
+    def exec(cls, token: str, args_parsed: Dict, data_local_config: Optional[Dict]) -> None:
         """Executes command
 
         Args:
